@@ -1,124 +1,20 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
-const P = require("pino");
-const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-let sock;
-
-// Ensure session folder exists
-const sessionPath = path.join(__dirname, "session");
-if (!fs.existsSync(sessionPath)) fs.mkdirSync(sessionPath);
-
-// ----------------------------
-// START BOT FUNCTION
-// ----------------------------
-async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
-  const { version } = await fetchLatestBaileysVersion();
-
-  sock = makeWASocket({
-    logger: P({ level: "silent" }),
-    version,
-    auth: state,
-    printQRInTerminal: false,
-  });
-
-  sock.ev.on("creds.update", saveCreds);
-
-  sock.ev.on("connection.update", async (update) => {
-    const { connection } = update;
-
-    if (connection === "open") {
-      console.log("✅ Bot Connected");
-
-      const credsFile = path.join(sessionPath, "creds.json");
-
-      // ================================
-      // BOSS PREMIUM STYLED MESSAGE
-      // ================================
-      const styledMessage = `
-╭────────────────────────╮
-│  👑 BOSS-MD OFFICIAL 👑  │
-╰────────────────────────╯
-
-[🚀] System : SESSION CONNECTED
-[🤖] Bot     : BOSS-MD
-[💻] Engine  : NodeJs + Baileys MD
-[🌍] Host    : Render Cloud
-[⚙️] Mode    : Public
-[🔖] Version : 2.0.0
-[👑] Owner   : BOSS Official
-
-━━━━━━━━━━━━━━━━━━━━
-🔥 SESSION FILE READY
-━━━━━━━━━━━━━━━━━━━━
-`;
-
-      if (fs.existsSync(credsFile)) {
-        // 1️⃣ Send Picture + Styled Message
-        await sock.sendMessage(sock.user.id, {
-          image: { url: "https://files.catbox.moe/cbgxpq.jpg" },
-          caption: styledMessage
-        });
-
-        // 2️⃣ Send Session File
-        await sock.sendMessage(sock.user.id, {
-          document: fs.readFileSync(credsFile),
-          fileName: "session.json",
-          mimetype: "application/json",
-          caption: "📄 BOSS-MD SESSION FILE"
-        });
-
-        // 3️⃣ Extra Info
-        const timeNow = new Date().toLocaleString();
-        await sock.sendMessage(sock.user.id, { text: `⏰ Timestamp: ${timeNow}` });
-        await sock.sendMessage(sock.user.id, {
-          text: `💻 RAM Usage: ${Math.round((os.totalmem()-os.freemem())/1024/1024)}MB / ${Math.round(os.totalmem()/1024/1024)}MB`
-        });
-        await sock.sendMessage(sock.user.id, {
-          audio: { url: "https://files.catbox.moe/uv4372.mp3" },
-          mimetype: "audio/mp3"
-        });
-      }
-    }
-
-    if (connection === "close") {
-      console.log("❌ Connection Closed. Restarting...");
-      startBot();
-    }
-  });
-}
-
-startBot();
-
-// ----------------------------
-// PAIRING ROUTE (Same as Tera Existing Structure)
-// ----------------------------
-app.get("/code", async (req, res) => {
-  let number = req.query.number;
-  if (!number) return res.json({ code: "Number Missing" });
-
-  // Remove non-digits and auto Pakistan country code
-  number = number.replace(/[^0-9]/g, "");
-  if (number.startsWith("0")) number = "92" + number.slice(1);
-
-  try {
-    const code = await sock.requestPairingCode(number);
-    res.json({ code });
-  } catch (err) {
-    console.log(err);
-    res.json({ code: "Error Generating Code" });
+{
+  "name": "boss-md-dashboard",
+  "version": "1.0.0",
+  "description": "Official BOSS-MD WhatsApp Bot Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "BOSS",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
-});
-
-// ----------------------------
-// START SERVER
-// ----------------------------
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+}
