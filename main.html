@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>BOSS-MD Sessions</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>👑 BOSS-MD · PREMIUM SESSIONS 👑</title>
+  <!-- Font Awesome 6 (latest) + Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -16,478 +17,535 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: #0d0d0d;
-      color: #00ffcc;
+      background: #0b0c0e;
+      color: #e2ffff;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Live Cyber-Grid Background */
+    /* ===== NEXT-LEVEL CYBER GRID ===== */
     .cyber-grid {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: -1;
-      background: #0d0d0d;
+      background: #0c0d10;
       overflow: hidden;
     }
-
-    .cyber-grid::before,
-    .cyber-grid::after {
+    .cyber-grid::before {
       content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 50px,
-        rgba(0, 255, 204, 0.1) 50px,
-        rgba(0, 255, 204, 0.1) 52px
-      );
-      animation: gridMove 20s linear infinite;
+      width: 200%; height: 200%;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 70px, 
+          rgba(255, 46, 99, 0.1) 70px, rgba(0, 255, 200, 0.12) 72px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px, 
+          rgba(0, 255, 200, 0.1) 70px, rgba(255, 46, 99, 0.1) 72px);
+      animation: driftGrid 32s linear infinite;
+      transform-origin: 0 0;
+    }
+    @keyframes driftGrid {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-120px, -120px); }
     }
 
-    .cyber-grid::after {
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 50px,
-        rgba(0, 255, 204, 0.1) 50px,
-        rgba(0, 255, 204, 0.1) 52px
-      );
+    /* FLOATING BOSS ENERGIES */
+    .boss-aura {
+      position: fixed;
+      top: 10%; right: 5%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,46,99,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(90px);
+      z-index: 0;
+      animation: auraPulse 9s infinite alternate;
+    }
+    .boss-aura.two {
+      left: 0; bottom: 0;
+      background: radial-gradient(circle, rgba(0,255,200,0.22) 0%, transparent 80%);
+      width: 600px; height: 600px;
+      filter: blur(120px);
+    }
+    @keyframes auraPulse {
+      0% { opacity: 0.4; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.5); }
     }
 
-    @keyframes gridMove {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-100px); }
-    }
-
-    /* Container */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-      position: relative;
-      z-index: 1;
-      margin-top: 60px; /* Space for fixed ticker */
-    }
-
-    /* News Ticker */
-    .news-container {
+    /* ===== FIXED TICKER (BOSS MODE) ===== */
+    .boss-ticker {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
+      z-index: 999;
       font-family: 'Orbitron', sans-serif;
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(14px) saturate(200%);
+      background: rgba(0, 0, 0, 0.6);
+      border-bottom: 3px solid #ff2e63;
+      box-shadow: 0 15px 30px -10px #ff2e63;
     }
-
-    .news-container .title {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 40%;
-      background: linear-gradient(90deg, #ff2e63, #7209b7);
-      padding: 10px 24px;
-      color: #fff;
-      font-weight: 700;
+    .boss-ticker .title {
+      background: linear-gradient(145deg, #ff2e63, #b5179e, #3a0ca3);
+      padding: 16px 38px;
+      color: white;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      z-index: 1001;
+      letter-spacing: 4px;
+      text-shadow: 0 0 20px cyan, 0 0 40px magenta;
+      clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+      margin-right: 15px;
+      font-size: 1.6rem;
+      white-space: nowrap;
     }
-
-    .news-container .ticker {
-      width: 100%;
+    .boss-ticker .marquee {
+      flex: 1;
       overflow: hidden;
-      background: rgba(0, 0, 0, 0.9);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      margin-left: 40%; /* Align ticker content to right of title */
     }
-
-    .news-container ul {
+    .boss-ticker ul {
       display: flex;
       list-style: none;
       margin: 0;
-      padding: 10px 0;
-      animation: scroll 20s infinite linear;
+      padding: 15px 0;
+      animation: bossScroll 24s infinite linear;
     }
-
-    .news-container ul li {
+    .boss-ticker ul li {
       white-space: nowrap;
-      padding: 0 24px;
-      color: #00ffcc;
-      font-size: 1rem;
-      text-shadow: 0 0 5px #00ffcc;
+      padding: 0 40px;
+      color: #a5f0ff;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #ff2e63;
       position: relative;
     }
-
-    .news-container ul li::after {
+    .boss-ticker ul li::before {
+      content: "👑";
+      margin-right: 12px;
+      font-size: 1.3rem;
+      filter: drop-shadow(0 0 8px gold);
+    }
+    .boss-ticker ul li::after {
       content: "";
-      width: 1px;
-      height: 100%;
-      background: #00ffcc;
       position: absolute;
-      top: 0;
       right: 0;
-      opacity: 0.5;
+      top: 20%;
+      height: 60%;
+      width: 3px;
+      background: linear-gradient(180deg, #ff2e63, cyan);
+      border-radius: 3px;
+    }
+    .boss-ticker ul li:last-child::after { display: none; }
+    @keyframes bossScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    .news-container ul li:last-child::after {
-      display: none;
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+      position: relative;
+      z-index: 20;
+      margin-top: 90px;
     }
 
-    @keyframes scroll {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
-    }
-
-    /* Hero Section */
+    /* ===== HERO (FULL BOSS) ===== */
     .hero {
       text-align: center;
-      padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid #00ffcc;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+      padding: 55px 30px;
+      background: rgba(2, 15, 25, 0.75);
+      backdrop-filter: blur(10px);
+      border: 3px solid;
+      border-image: linear-gradient(45deg, #ff2e63, gold, #00ffff) 1;
+      border-radius: 60px 10px 60px 10px;
+      box-shadow: 0 0 70px #ff2e63, inset 0 0 30px #00ffff40;
+      width: 100%;
+      position: relative;
     }
-
+    .hero::before {
+      content: "👑  BOSS  👑  MR.  👑  BOSS  👑";
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: #ffd966;
+      font-weight: 900;
+      padding: 8px 40px;
+      border-radius: 60px;
+      font-size: 1.3rem;
+      letter-spacing: 5px;
+      border: 2px solid gold;
+      box-shadow: 0 0 40px gold;
+      white-space: nowrap;
+      text-shadow: 0 0 15px orange;
+    }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      color: #ff2e63;
-      text-shadow: 0 0 10px #ff2e63;
-      margin-bottom: 10px;
+      font-size: 3.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff2e63, gold, #0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 25px #ff2e63);
     }
-
     .hero p {
-      font-size: 1.2rem;
-      color: #00ffcc;
-      max-width: 600px;
-      margin: 0 auto;
+      font-size: 1.6rem;
+      background: rgba(0,0,0,0.5);
+      padding: 16px 30px;
+      border-radius: 70px;
+      border: 2px solid gold;
+      display: inline-block;
+      color: #fff0b5;
+      font-weight: 600;
     }
 
-    /* Features Section */
+    /* ===== FEATURES – totally distinct boss buttons ===== */
     .features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 35px;
       width: 100%;
     }
-
     .feature-card {
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
-      padding: 20px;
+      background: rgba(0, 8, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 3px solid;
+      border-radius: 40px 8px 40px 8px;
+      padding: 35px 20px;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.3);
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 25px;
+      box-shadow: 0 30px 30px -15px black;
     }
-
+    .feature-card:nth-child(1) { border-color: #ff2e63; box-shadow: 0 0 50px #ff2e63; }
+    .feature-card:nth-child(2) { border-color: gold; box-shadow: 0 0 50px gold; }
+    .feature-card:nth-child(3) { border-color: #00ffff; box-shadow: 0 0 50px cyan; }
     .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+      transform: translateY(-15px) scale(1.02);
+      border-width: 4px;
     }
-
     .feature-card h3 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      color: #ff2e63;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #fff, #ffd966);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
     }
-
     .feature-card p {
-      font-size: 1rem;
-      color: #00ffcc;
+      font-size: 1.2rem;
+      color: #bcf5ff;
+      font-weight: 400;
       flex-grow: 1;
     }
-
+    /* UNIQUE BUTTONS — each is a masterpiece */
     .feature-card .btn {
-      width: 100%;
-      padding: 0.8em;
-      font-size: 1rem;
-    }
-
-    /* About Section */
-    .about {
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
-      padding: 30px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .about h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      color: #ff2e63;
-      margin-bottom: 15px;
-    }
-
-    .about p {
-      font-size: 1.1rem;
-      color: #00ffcc;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Contact Section */
-    .contact {
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
-      padding: 30px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .contact h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      color: #ff2e63;
-      margin-bottom: 15px;
-    }
-
-    .contact p {
-      font-size: 1.1rem;
-      color: #00ffcc;
-      margin-bottom: 20px;
-    }
-
-    /* Buttons */
-    .btn {
       background: transparent;
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
+      border: none;
+      border-radius: 60px;
       cursor: pointer;
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.1rem;
+      font-weight: 800;
+      font-size: 1.4rem;
       text-transform: uppercase;
-      color: #00ffcc;
-      text-shadow: 0 0 5px #00ffcc;
-      transition: all 0.3s ease;
+      padding: 16px 0;
+      transition: 0.25s;
       position: relative;
       overflow: hidden;
+      z-index: 2;
+      letter-spacing: 4px;
     }
-
-    .btn::before {
+    .card1 .btn {
+      border: 3px solid #ff2e63;
+      color: #ff2e63;
+      text-shadow: 0 0 20px #ff2e63;
+      box-shadow: 0 0 30px #ff2e63;
+      background: rgba(255,46,99,0.05);
+    }
+    .card2 .btn {
+      border: 3px solid gold;
+      color: gold;
+      text-shadow: 0 0 20px gold;
+      box-shadow: 0 0 30px gold;
+      background: rgba(255,215,0,0.05);
+    }
+    .card3 .btn {
+      border: 3px solid cyan;
+      color: cyan;
+      text-shadow: 0 0 20px cyan;
+      box-shadow: 0 0 30px cyan;
+      background: rgba(0,255,255,0.05);
+    }
+    .feature-card .btn::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
+      top: 0; left: -150%;
+      width: 150%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.8s;
+      transform: skewX(-20deg);
+    }
+    .feature-card .btn:hover::before { left: 100%; }
+    .feature-card .btn:hover {
+      filter: brightness(1.4);
+      transform: scale(1.07);
+      border-color: white;
+    }
+    .card1 .btn:hover { background: #ff2e6340; color: white; }
+    .card2 .btn:hover { background: #ffd70040; color: white; }
+    .card3 .btn:hover { background: #00ffff40; color: black; }
+
+    /* ===== ABOUT + CONTACT (boss style) ===== */
+    .about, .contact {
+      background: rgba(0, 10, 25, 0.8);
+      backdrop-filter: blur(8px);
+      border: 3px solid;
+      border-radius: 70px 10px 70px 10px;
+      padding: 45px 30px;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.3), transparent);
-      transition: all 0.5s ease;
-      z-index: -1;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:hover {
-      background: rgba(0, 255, 204, 0.2);
-      box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
-      color: #fff;
-      border-color: #fff;
-    }
-
-    .btn:active {
-      transform: scale(0.95);
-      filter: brightness(0.8);
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
       text-align: center;
-      color: #00ffcc;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem;
-      text-shadow: 0 0 5px #00ffcc;
+    }
+    .about {
+      border-color: #ff2e63;
+      box-shadow: 0 0 80px #ff2e63, inset 0 0 30px gold;
+    }
+    .contact {
+      border-color: gold;
+      box-shadow: 0 0 80px gold, inset 0 0 30px cyan;
+    }
+    .about h2, .contact h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(145deg, #fff0a0, #ffb347);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
+    }
+    .contact h2 {
+      background: linear-gradient(145deg, #ffb6ff, #b300ff);
+    }
+    .about p, .contact p {
+      font-size: 1.3rem;
+      max-width: 1000px;
+      margin: 0 auto 25px;
+      color: #f0f9ff;
+    }
+    /* YOUR NAME – BOSS STYLE */
+    .boss-nameplate {
+      display: inline-block;
+      background: #111520;
+      padding: 18px 55px;
+      border-radius: 70px;
+      font-size: 2rem;
+      font-weight: 900;
+      border: 3px double gold;
+      color: #ffd966;
+      letter-spacing: 4px;
+      box-shadow: 0 0 60px gold, inset 0 0 15px #ff2e63;
+      margin: 20px 0 10px;
+      text-transform: uppercase;
+    }
+    .boss-nameplate i { color: cyan; margin: 0 15px; }
+
+    /* BOSS CONTACT STRIP */
+    .boss-contact-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 35px;
+      margin: 30px 0;
+    }
+    .boss-contact-strip div {
+      background: #000c1a;
+      border: 2px solid #ff2e63;
+      border-radius: 100px;
+      padding: 12px 30px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: cyan;
+      box-shadow: 0 0 25px cyan;
+    }
+    .boss-contact-strip i { margin-right: 10px; color: gold; }
+
+    /* ===== FOOTER (ALL BOSS) ===== */
+    .footer {
+      margin-top: 30px;
+      padding: 35px 30px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      border: 3px solid cyan;
+      border-radius: 80px 10px 80px 10px;
+      text-align: center;
       width: 100%;
+      box-shadow: 0 0 80px cyan;
     }
-
-    .footer b {
+    .footer p {
+      font-size: 1.3rem;
+      margin: 12px 0;
+    }
+    .footer .boss-name {
+      font-size: 2.5rem;
+      font-weight: 900;
       color: #ff2e63;
+      text-shadow: 0 0 30px #ff2e63, 0 0 60px gold;
+      letter-spacing: 6px;
     }
-
     .footer .social-links {
-      margin-top: 15px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 30px 0 20px;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
     }
-
     .footer .social-links a {
-      color: #00ffcc;
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
+      font-size: 3rem;
+      transition: 0.2s;
+      filter: drop-shadow(0 0 15px currentColor);
     }
-
+    .footer .social-links a:nth-child(1) { color: #ff0050; } /* youtube */
+    .footer .social-links a:nth-child(2) { color: #fccc63; } /* insta */
+    .footer .social-links a:nth-child(3) { color: #2aabee; } /* tg */
+    .footer .social-links a:nth-child(4) { color: #ffffff; } /* git */
     .footer .social-links a:hover {
-      color: #ff2e63;
-      text-shadow: 0 0 10px #ff2e63;
+      transform: scale(1.2) rotate(6deg);
+      filter: drop-shadow(0 0 40px gold);
+    }
+    .footer .signature {
+      color: #b5f0ff;
+      font-size: 1.2rem;
+      border-top: 1px dashed cyan;
+      padding-top: 20px;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .container {
-        padding: 10px 10px; /* Add left/right spacing for boxes */
-        margin-top: 80px; /* Adjust for mobile ticker */
-      }
-
-      .news-container .title {
-        width: 50%;
-        font-size: 0.7rem; /* Smaller font for one line */
-        padding: 8px 15px;
-      }
-
-      .news-container .ticker {
-        margin-left: 50%;
-      }
-
-      .news-container ul li {
-        font-size: 0.8rem;
-        padding: 8px 15px;
-      }
-
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .feature-card h3 {
-        font-size: 1.3rem;
-      }
-
-      .about h2,
-      .contact h2 {
-        font-size: 1.5rem;
-      }
-
-      .about p,
-      .contact p {
-        font-size: 1rem;
-      }
-
-      .feature-card .btn {
-        font-size: 0.9rem;
-        padding: 0.6em;
-      }
-
-      .footer .social-links {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
+    /* responsive */
+    @media (max-width: 900px) {
+      .features { grid-template-columns: 1fr; gap: 40px; }
+      .boss-ticker .title { font-size: 1.1rem; padding: 12px 20px; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.2rem; }
+    }
+    @media (max-width: 550px) {
+      .boss-ticker .title { clip-path: none; font-size: 0.9rem; }
+      .hero::before { font-size: 0.7rem; padding: 5px 10px; white-space: normal; }
+      .boss-nameplate { font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
   <div class="cyber-grid"></div>
-  <div class="news-container">
-    <div class="title">Hello👋 Viewer's</div>
-    <div class="ticker">
+  <div class="boss-aura"></div>
+  <div class="boss-aura two"></div>
+
+  <!-- TICKER (BOSS EDITION) -->
+  <div class="boss-ticker">
+    <div class="title">🤴🏽 MR. BOSS</div>
+    <div class="marquee">
       <ul>
-        <li>welcome to BOSS-MD sessions!</li>
-        <li>Here you will get session ids for your Boss-MD</li>
-        <li>DSF CREW DEVS</li>
+        <li>⚡ BOSS-MD PREMIUM SESSIONS ⚡</li>
+        <li>🔥 ONLY FOR REAL ONES – MR. BOSS HIMSELF 🔥</li>
+        <li>👑 DSF CREW · MR. BOSS · VIP 👑</li>
+        <li>📞 +923076411099 • +923487690170 📞</li>
+        <li>💎 TELEGRAM @Bigboss / @boss_md 💎</li>
       </ul>
     </div>
   </div>
 
   <div class="container">
-    <!-- Hero Section -->
+    <!-- HERO – your name on top -->
     <div class="hero">
-      <h1>Welcome to our session Centre</h1>
-      <p>Your one-stop hub for WhatsApp bot sessions. Get your QR or pair code, deploy BOSS-MD, and join the tech revolution!</p>
+      <h1>BOSS‑MD SESSION THRONE</h1>
+      <p>👑 MR. BOSS 👑 — your only session king</p>
     </div>
 
-    <!-- Features Section -->
+    <!-- FEATURES with distinct boss buttons -->
     <div class="features">
-      <div class="feature-card">
-        <h3>QR Code Pairing</h3>
-        <p>Scan a QR code to instantly connect your WhatsApp bot with a secure session ID.</p>
-        <button onclick="window.location.href='/qr'" class="btn">Get QR Code</button>
+      <div class="feature-card card1">
+        <h3>📸 QR • BOSS</h3>
+        <p>Flash qr pairing — ultra secure, one scan & your bot wears the crown.</p>
+        <button onclick="window.location.href='/qr'" class="btn">⚡ QR ⚡</button>
       </div>
-      <div class="feature-card">
-        <h3>Pair Code</h3>
-        <p>Enter a phone number and get a code to pair your bot without scanning.</p>
-        <button onclick="window.location.href='/pair'" class="btn">Get Pair Code</button>
+      <div class="feature-card card2">
+        <h3>🔢 PAIR • GOLD</h3>
+        <p>No scanner? drop number & get instant code. worldwide VIP lane.</p>
+        <button onclick="window.location.href='/pair'" class="btn">✨ PAIR ✨</button>
       </div>
-      <div class="feature-card">
-        <h3>Deploy Boss-MD</h3>
-        <p>Deploy your own bot for free here.</p>
-        <button onclick="window.location.href='https://github.com/BOSS-MD/BOSS_MD'" class="btn">Deploy Now</button>
+      <div class="feature-card card3">
+        <h3>🚀 DEPLOY • 24K</h3>
+        <p>Deploy boss‑md with one‑click scripts. premium guide inside.</p>
+        <button onclick="window.location.href='https://github.com/BOSS-MD/BOSS_MD'" class="btn">⎈ DEPLOY ⎈</button>
       </div>
     </div>
 
-    <!-- About Section -->
+    <!-- ABOUT (all your info) -->
     <div class="about">
-      <h2>About Us</h2>
-      <p>We’re a crew of tech enthusiasts building tools for WhatsApp bot creators. Our mission? Make bot setup fast, secure, and awesome. Join the BOSS-MD community!</p>
+      <h2>✪ THE BOSS HIMSELF ✪</h2>
+      <div class="boss-nameplate">
+        <i class="fas fa-crown"></i> MR. BOSS <i class="fas fa-crown"></i>
+      </div>
+      <p><strong style="color:#ff2e63;">DSF CREW · FOUNDER · LEAD DEV</strong> — 5k+ bots running on my session infra. I build, I secure, I rule.</p>
+      <!-- contact strip inside about (extra boss) -->
+      <div class="boss-contact-strip">
+        <div><i class="fas fa-phone-alt"></i> +923076411099</div>
+        <div><i class="fab fa-whatsapp"></i> +923487690170</div>
+        <div><i class="fab fa-telegram"></i> @Bigboss</div>
+      </div>
+      <p style="font-size:1.4rem; color: gold;">📧 boss@bossmd.io  |  💬 24/7 VIP support</p>
     </div>
 
-    <!-- Contact Section -->
+    <!-- CONTACT (full boss details, no arslan) -->
     <div class="contact">
-      <h2>Get in Touch</h2>
-      <p>Hit us up on SMS, WhatsApp, or Telegram for support, collabs, or just to talk tech.</p>
-      <!-- GetButton.io widget will appear here -->
+      <h2>⚡ REACH THE BOSS ⚡</h2>
+      <p>📞 <b style="color:#ff2e63;">+923076411099</b> (SMS / whatsapp) &nbsp; | &nbsp; ✉️ <b style="color:#ffaa33;">+923487690170</b> (priority)</p>
+      <p>📨 Telegram <b style="color:#00ffff;">@Bigboss</b>  •  <b style="color:gold;">@boss_md</b>  •  instant reply (only for real ones)</p>
+      <div style="margin: 30px auto; width: fit-content; background: #000; padding: 14px 50px; border-radius: 60px; border: 3px solid gold;">
+        <span style="font-size:2rem; font-weight:900; color:#ffd966;">👑 #BOSS_ARMY 👑</span>
+      </div>
+      <p style="font-size:1.4rem;"><i class="fas fa-star" style="color:cyan;"></i> mention <strong style="background:gold; color:black; padding:6px 25px;">@boss</strong> for instant session</p>
+    </div>
+
+    <!-- FOOTER – only boss identity -->
+    <div class="footer">
+      <p>© <span class="boss-name">MR. BOSS</span> — premium bot infrastructure</p>
+      <p>Contact <b style="font-size:2rem; background:linear-gradient(45deg, gold, #ff2e63); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">BOSS</b> direct</p>
+      <div class="social-links">
+        <a href="https://youtube.com/@bossmd" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/me_boss" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/boss_md" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://github.com/boss-md" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+      <div class="signature">
+        <i class="fas fa-gem" style="color:cyan;"></i> DSF CREW • BOSS • PREMIUM SESSIONS <i class="fas fa-gem" style="color:gold;"></i>
+      </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>© Arslan Tech</p>
-    <p>Contact <b>ArslanMD Official</b></p>
-    <div class="social-links">
-      <a href="https://youtube.com/@abdulrehmanfnaax" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/me boss" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://t.me/arslanmd" target="_blank"><i class="fab fa-telegram"></i></a>
-      <a href="t.me/arslanmd" target="_blank"><i class="fab fa-github"></i></a>
-    </div>
-  </div>
-
-  <!-- GetButton.io widget -->
+  <!-- GetButton.io widget (same numbers, boss vibe) -->
   <script type="text/javascript">
     (function () {
       var options = {
         sms: "+923076411099",
-        sms_color: "#129BF4",
+        sms_color: "#FF318E",
         whatsapp: "+923487690170",
         telegram: "@Bigboss",
-        call_to_action: "Message us",
-        button_color: "#FF318E",
+        call_to_action: "👑 MESSAGE BOSS 👑",
+        button_color: "#ff2e63",
         position: "left",
         order: "sms,whatsapp,telegram",
-        pre_filled_message: "hey Arslan Tech i have come with greetings from your session",
+        pre_filled_message: "hey BOSS! i'm from your session site — need the crown treatment",
       };
       var proto = 'https:', host = "getbutton.io", url = proto + '//static.' + host;
       var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
@@ -495,6 +553,5 @@
       var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
     })();
   </script>
-  <!-- /GetButton.io widget -->
 </body>
 </html>
