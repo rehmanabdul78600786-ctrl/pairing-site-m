@@ -1,111 +1,95 @@
-const PastebinAPI = require('pastebin-js');
-const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
-const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
-let router = express.Router();
+const path = require('path');
+const router = express.Router();
+const { default: Mbuvi_Tech, useMultiFileAuthState, delay, makeCacheableSignalKeyStore, Browsers } = require('@whiskeysockets/baileys');
 const pino = require('pino');
-const {
-    default: Mbuvi_Tech,
-    useMultiFileAuthState,
-    delay,
-    makeCacheableSignalKeyStore,
-    Browsers
-} = require('@whiskeysockets/baileys');
+const { makeid } = require('./id');
 
-function removeFile(FilePath) {
-    if (!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true });
+function removeFile(filePath) {
+    if (!fs.existsSync(filePath)) return false;
+    fs.rmSync(filePath, { recursive: true, force: true });
 }
 
 router.get('/', async (req, res) => {
-    const id = makeid();
-    let num = req.query.number;
-    
-    async function Mbuvi_MD_PAIR_CODE() {
-        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+    const id = makeid(); 
+    let number = req.query.number;
+    if (!number) return res.status(400).json({ code: "Number missing" });
+
+    number = number.replace(/[^0-9]/g, '');
+
+    async function generatePairingCode() {
+        const { state, saveCreds } = await useMultiFileAuthState(path.join(__dirname, 'temp', id));
         try {
-            let Pair_Code_By_Mbuvi_Tech = Mbuvi_Tech({
+            const client = Mbuvi_Tech({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' })),
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' }))
                 },
                 printQRInTerminal: false,
                 logger: pino({ level: 'fatal' }).child({ level: 'fatal' }),
                 browser: Browsers.macOS('Chrome')
             });
 
-            if (!Pair_Code_By_Mbuvi_Tech.authState.creds.registered) {
+            if (!client.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g, '');
-                const code = await Pair_Code_By_Mbuvi_Tech.requestPairingCode(num);
-                if (!res.headersSent) {
-                    await res.send({ code });
-                }
+                const code = await client.requestPairingCode(number);
+                if (!res.headersSent) res.json({ code });
             }
 
-            Pair_Code_By_Mbuvi_Tech.ev.on('creds.update', saveCreds);
-            Pair_Code_By_Mbuvi_Tech.ev.on('connection.update', async (s) => {
-                const { connection, lastDisconnect } = s;
+            client.ev.on('creds.update', saveCreds);
+
+            client.ev.on('connection.update', async (update) => {
+                const { connection, lastDisconnect } = update;
+
                 if (connection === 'open') {
                     await delay(5000);
-                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                    await delay(800);
-                    let b64data = Buffer.from(data).toString('base64');
-                    let session = await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: 'BOSS-MD~' + b64data });
 
-                    let Mbuvi_MD_TEXT = `
-        
-╔════════════════════◇
-║『 SESSION CONNECTED』
-║ ✨ BOSS-MD 🔷
-║ ✨ BOSS-MD OFFICIAL🔷
-╚════════════════════╝
+                    const confirmationMessage = `
+╭━〔 *BOSS-MD* 〕━··๏
+┃★╭──────────────
+┃★│ 👑 Owner : *BOSS Official*
+┃★│ 🤖 Baileys : *Multi Device*
+┃★│ 💻 Type : *NodeJs*
+┃★│ 🚀 Platform : *Render / Localhost*
+┃★│ 🔣 Prefix : *[ . ]*
+┃★│ 🏷️ Version : *1.0.0*
+┃★╰──────────────
+╰━━━━━━━━━━━━━━┈⊷
 
+*╭┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉━┈⟢*
+*┇▸* 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐂𝐎𝐍𝐍𝐄𝐂𝐓𝐄𝐃 ✅
+*┇▸* 𝐁𝐎𝐓 - 𝐁𝐎𝐒𝐒-𝐌𝐃
+*┇▸* 𝐎𝐖𝐍𝐄𝐑 - 𝐁𝐎𝐒𝐒
+*┇▸* 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 - ${id}
+*╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉━┈⟢*
 
----
-
-╔════════════════════◇
-║『 YOU'VE CHOSEN BOSS-MD 』
-║ -Set the session ID in Heroku:
-║ - SESSION_ID: 
-╚════════════════════╝
-╔════════════════════◇
-║ 『••• _V𝗶𝘀𝗶𝘁 𝗙𝗼𝗿_H𝗲𝗹𝗽 •••』
-║❍ 𝐎𝐰𝐧𝐞𝐫: 923076411099
-║❍ 𝐑𝐞𝐩𝐨: https://github.com/rehmanabdul78600786-ctrl/BOSS-BOTZ
-║❍ 𝐖𝐚𝐆𝗿𝐨𝐮𝐩: https://chat.whatsapp.com/BDtwy5RxmqIAIzx8moCJ8L?mode=wwt
-║❍ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029VbC19OTHFxP2mYyAMy1G
-║ ☬ ☬ ☬ ☬
-╚═════════════════════╝
-𒂀 Enjoy BOSS-MD
-
-
----
+🔹 Repo : https://github.com/bosstech-collab/Boss-md-
+🔹 Owner Pic : https://files.catbox.moe/7w1yde.jpg
+🔹 Live : http://localhost:8000
 
 Don't Forget To Give Star⭐ To My Repo
-______________________________`;
+`;
 
-                    await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: Toxic_MD_TEXT }, { quoted: session });
+                    await client.sendMessage(client.user.id, { text: confirmationMessage });
 
                     await delay(100);
-                    await Pair_Code_By_Mbuvi_Tech.ws.close();
-                    return await removeFile('./temp/' + id);
-                } else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                    await client.ws.close();
+                    return removeFile(path.join(__dirname, 'temp', id));
+                }
+                else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
                     await delay(10000);
-                    Mbuvi_MD_PAIR_CODE();
+                    generatePairingCode();
                 }
             });
         } catch (err) {
-            console.log('Service restarted');
-            await removeFile('./temp/' + id);
-            if (!res.headersSent) {
-                await res.send({ code: 'Service Currently Unavailable' });
-            }
+            console.error('Pairing Service Error:', err.message);
+            removeFile(path.join(__dirname, 'temp', id));
+            if (!res.headersSent) res.json({ code: 'Service Currently Unavailable' });
         }
     }
-    
-    return await Mbuvi_MD_PAIR_CODE();
+
+    await generatePairingCode();
 });
 
 module.exports = router;
