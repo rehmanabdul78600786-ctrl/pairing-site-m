@@ -1,27 +1,123 @@
-{
-  "name": "boss-pair",
-  "version": "0.0.1",
-  "description": "A multi functional whatsapp bot Web paircode.",
-  "main": "arslan.js",
-  "scripts": {
-    "start": "pm2 start arslan.js --deep-monitoring --attach --name boss-pair",
-    "stop": "pm2 stop boss-pair",
-    "restart": "pm2 restart boss-pair"
-  },
-  "dependencies": {
-    "@whiskeysockets/baileys": "npm:wileys",              
-    "@adiwajshing/keyed-db": "^0.2.4",
-    "qrcode": "^1.5.3",
-    "awesome-phonenumber": "^2.64.0",
-    "pino": "^8.1.0",
-    "phone": "3.1.30",
-    "body-parser": "^1.20.1",
-    "express": "^4.18.1",
-    "path": "^0.12.7",
-    "pastebin-js": "latest",
-    "megajs": "1.1.7",
-    "pm2": "^6.0.6",
-    "jimp": "^0.16.1",
-    "async-mutex": "0.4.1"
-  }
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+const P = require("pino");
+const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+let sock;
+
+// Ensure session folder exists
+const sessionPath = path.join(__dirname, "session");
+if (!fs.existsSync(sessionPath)) fs.mkdirSync(sessionPath);
+
+// Start Bot
+async function startBot() {
+  const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
+  const { version } = await fetchLatestBaileysVersion();
+
+  sock = makeWASocket({
+    logger: P({ level: "silent" }),
+    version,
+    auth: state,
+    printQRInTerminal: false,
+  });
+
+  sock.ev.on("creds.update", saveCreds);
+
+  sock.ev.on("connection.update", async (update) => {
+    const { connection } = update;
+
+    if (connection === "open") {
+      console.log("✅ Bot Connected");
+
+      const credsFile = path.join(sessionPath, "creds.json");
+
+      const styledMessage = `
+╭────────────────────────╮
+│  👑 BOSS-MD OFFICIAL 👑  │
+╰────────────────────────╯
+
+[🚀] System : SESSION CONNECTED
+[🤖] Bot     : BOSS-MD
+[💻] Engine  : NodeJs + Baileys MD
+[🌍] Host    : Render Cloud
+[⚙️] Mode    : Public
+[🔖] Version : 2.0.0
+[👑] Owner   : BOSS Official
+
+━━━━━━━━━━━━━━━━━━━━
+🔥 SESSION FILE READY
+━━━━━━━━━━━━━━━━━━━━
+`;
+
+      if (fs.existsSync(credsFile)) {
+        // 1️⃣ Send Picture + Styled Message
+        await sock.sendMessage(sock.user.id, {
+          image: { url: "https://files.catbox.moe/cbgxpq.jpg" },
+          caption: styledMessage
+        });
+
+        // 2️⃣ Send Session File
+        await sock.sendMessage(sock.user.id, {
+          document: fs.readFileSync(credsFile),
+          fileName: "session.json",
+          mimetype: "application/json",
+          caption: "📄 BOSS-MD SESSION FILE"
+        });
+
+        // 3️⃣ Optional: Timestamp
+        const timeNow = new Date().toLocaleString();
+        await sock.sendMessage(sock.user.id, { text: `⏰ Timestamp: ${timeNow}` });
+
+        // 4️⃣ Optional: RAM Usage
+        await sock.sendMessage(sock.user.id, {
+          text: `💻 RAM Usage: ${Math.round((os.totalmem()-os.freemem())/1024/1024)}MB / ${Math.round(os.totalmem()/1024/1024)}MB`
+        });
+
+        // 5️⃣ Optional: Pairing Sound
+        await sock.sendMessage(sock.user.id, {
+          audio: { url: "https://files.catbox.moe/uv4372.mp3" },
+          mimetype: "audio/mp3"
+        });
+      }
+    }
+
+    if (connection === "close") {
+      console.log("❌ Connection Closed. Restarting...");
+      startBot();
+    }
+  });
 }
+
+startBot();
+
+// =========================
+// PAIRING ROUTE
+// =========================
+app.get("/code", async (req, res) => {
+  let number = req.query.number;
+  if (!number) return res.json({ code: "Number Missing" });
+
+  // Remove non-digits and auto Pakistan country code
+  number = number.replace(/[^0-9]/g, "");
+  if (number.startsWith("0")) number = "92" + number.slice(1);
+
+  try {
+    const code = await sock.requestPairingCode(number);
+    res.json({ code });
+  } catch (err) {
+    console.log(err);
+    res.json({ code: "Error Generating Code" });
+  }
+});
+
+// =========================
+// START SERVER
+// =========================
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
